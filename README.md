@@ -2,7 +2,7 @@
 
 ## Summary
 
-This model is based on the "Virus on Network" example model from python mesa framework, with modifications.
+This model is based on the "Virus on Network" example model from python mesa framework.
 
 JavaScript library used in this model to render the network: [d3.js](https://d3js.org/).
 
