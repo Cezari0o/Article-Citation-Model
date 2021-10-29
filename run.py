@@ -1,3 +1,3 @@
-from virus_on_network.server import server
+from article_citation.server import server
 
 server.launch()
