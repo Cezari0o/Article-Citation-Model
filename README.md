@@ -1,15 +1,14 @@
-# Virus on a Network
+# Article Citation Model
 
 ## Summary
 
-This model is based on the NetLogo model "Virus on Network".
+This model is based on the "Virus on Network" example model from python mesa framework, with modifications.
 
-For more information about this model, read the NetLogo's web page: http://ccl.northwestern.edu/netlogo/models/VirusonaNetwork.
-
-JavaScript library used in this example to render the network: [d3.js](https://d3js.org/).
+JavaScript library used in this model to render the network: [d3.js](https://d3js.org/).
 
 ## Installation
 
+To use this model, one needs to have python mesa installed.
 To install the dependencies use pip and the requirements.txt in this directory. e.g.
 
 ```
@@ -34,13 +33,4 @@ Then open your browser to [http://127.0.0.1:8521/](http://127.0.0.1:8521/) and p
 
 ## Further Reading
 
-The full tutorial describing how the model is built can be found at:
-http://mesa.readthedocs.io/en/master/tutorials/intro_tutorial.html
-
-
-[Stonedahl, F. and Wilensky, U. (2008). NetLogo Virus on a Network model](http://ccl.northwestern.edu/netlogo/models/VirusonaNetwork). 
-Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
-
-
-[Wilensky, U. (1999). NetLogo](http://ccl.northwestern.edu/netlogo/)
-Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
+https://mesa.readthedocs.io/en/stable/
