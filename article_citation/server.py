@@ -8,17 +8,34 @@ from mesa.visualization.modules import NetworkModule
 from mesa.visualization.modules import TextElement
 # from .model import VirusOnNetwork, State, number_infected
 from .model import ArticlesProductModel
+# from .model import get_art_citation
 
 
 def network_portrayal(G):
     # The model ensures there is always 1 agent per node
 
-    def node_color():
+    def node_size(agent):
+        # total_refs = len(agent.reference_articles)
+
+        refs_this_art = agent.model.G.in_degree(agent.unique_id)
+
+        # total_refs = agent.model.G.in_degree(agent.model.G.nodes())
+        # total_refs = sum([val for key, val in total_refs])
+
+        refs_this_art = int(math.log(refs_this_art + 1, 1000) * 5)
+
+        return refs_this_art + 3
+
+    def node_color(agent):
         # return {State.INFECTED: "#FF0000", State.SUSCEPTIBLE: "#008000"}.get(
         #     agent.state, "#808080"
         # )
+        total_refs = len(agent.reference_articles)
 
-        return "#008000";
+        if(total_refs > 0):
+            return "#6666ff";
+
+        return "#ff6600"
 
     def edge_color(agent1, agent2):
         # if State.RESISTANT in (agent1.state, agent2.state):
@@ -46,11 +63,12 @@ def network_portrayal(G):
     portrayal = dict()
     portrayal["nodes"] = [
         {
-            "size": 6,
-            "color": node_color(),
-            "tooltip": "id: {}<br>Citações: {}".format(
+            "size": node_size(agents[0]),
+            "color": node_color(agents[0]),
+            "tooltip": "id: {}<br>Citações: {}<br>Vezes citado: {}".format(
                 (agents[0].unique_id if len(agents) > 0 else "none"),
                 len(agents[0].reference_articles),
+                agents[0].model.G.in_degree(agents[0].unique_id),
                 # agents[0].unique_id, agents[0].state.name
             ),
         }
@@ -85,12 +103,16 @@ chart = ChartModule(
     ]
 )
 
-chart2 = BarChartModule(
-    [
-        {"Label": "Grau de citacoes por artigo", "Color": "0000FF"}
+# Este grafico esta com problemas de exibicao, acreditamos que seja porque 
+# ele nao foi feito para o nosso tipo de simulacao (adicionar novos artigos 
+# com o passar do tempo).
+chart2 = BarChartModule( canvas_height=400, canvas_width=800,
+    fields = [
+        {"Label": "Num citacoes Art", "Color": "0000FF"
+        }
     ], 
     scope='agent',
-    sorting='ascending',
+    # sorting='ascending',
 )
 
 class ChartTitle(TextElement):
@@ -103,8 +125,13 @@ class ChartTitle(TextElement):
         #     ratio_text, infected_text
         # )
 
-        return "Medidas de tendência sobre a quantidade de citações dos artigos:"
+        return "Medidas de tendência sobre a quantidade de referências dos artigos:"
 
+
+class ChartTitle2(TextElement):
+    def render(self, model):
+
+        return "Quantidade de citações que cada artigo faz:"
 
 model_params = {
     "num_max_articles" : UserSettableParameter(
@@ -112,24 +139,34 @@ model_params = {
         name="Número máximo de artigos",
         value=100,
         min_value=10,
-        max_value=500,
+        max_value=2000,
         step=1,
         description="Escolha o número de artigos máximos a serem produzidos"
     ),
 
-    "avg_node_degree": UserSettableParameter(
-        "slider", "Avg Node Degree", 3, 3, 8, 1, description="Avg Node Degree"
-    ),
-
-    "num_max_authors" : UserSettableParameter(
+    "num_acceptable_articles" :  UserSettableParameter(
         param_type="slider",
-        name="Número máximo de autores",
-        value=100,
+        name="Número de citações médias iniciais",
+        value=50,
         min_value=10,
-        max_value=400,
+        max_value=80,
         step=1,
-        description="Escolha o número de autores que podem produzir artigos"
+        description="Escolha a quantidade de artigos que terão uma citação média inicial um pouco mais baixa"
     ),
+ 
+    # "avg_node_degree": UserSettableParameter(
+    #     "slider", "Avg Node Degree", 3, 3, 8, 1, description="Avg Node Degree"
+    # ),
+
+    # "num_max_authors" : UserSettableParameter(
+    #     param_type="slider",
+    #     name="Número máximo de autores",
+    #     value=100,
+    #     min_value=10,
+    #     max_value=400,
+    #     step=1,
+    #     description="Escolha o número de autores que podem produzir artigos"
+    # ),
     # "num_nodes": UserSettableParameter(
     #     "slider",
     #     "Number of agents",
@@ -191,6 +228,6 @@ model_params = {
 }
 
 server = ModularServer(
-    ArticlesProductModel, [network, ChartTitle(), chart, ], "Modelo de Citações", model_params
+    ArticlesProductModel, [network, ChartTitle(), chart, ChartTitle2(), chart2], "Modelo de Citações", model_params
 )
 server.port = 8521
