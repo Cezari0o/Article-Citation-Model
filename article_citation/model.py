@@ -128,11 +128,13 @@ class ArticlesProductModel(Model):
                 
             },
             agent_reporters = {
-                "Num citacoes Art": get_art_citation,
+                "Num citacoes Art": "num_citations",
+                "Num referencias Art" : "num_references",
             },
         )
 
 
+        # Criando uma quantidade inicial de artigos, sem nenhuma citacao
         for i in range(10):
             new_article = Article(self.art_idx, self)
             self.art_idx += 1
@@ -143,7 +145,7 @@ class ArticlesProductModel(Model):
             self.schedule.add(new_article)
         
 
-        self.running = True
+        self.running = len(self.schedule.agents) <= self.num_max_articles
         self.datacollector.collect(self)
 
     
@@ -179,7 +181,9 @@ class Article(Agent):
         # Listas que contem as referencias para os artigos
         self.reference_articles = [] # Contem referencias para outros artigos, que sao unicas
         self.citations = [] # Contem as citacoes, que podem ser repetir
-        
+        self.num_citations = 0
+        self.num_references = 0
+
         if(len(self.model.schedule.agents) < self.model.num_acceptable_articles):
             mu = len(self.model.schedule.agents) // 2
             sigma = 5
@@ -228,6 +232,9 @@ class Article(Agent):
 
         self.reference_articles = list(set(self.citations))
 
+        self.num_citations = len(self.citations)
+        self.num_references = len(self.reference_articles)
+        
         for art in self.reference_articles:
             self.model.G.add_edge(self.unique_id, art.unique_id)
 

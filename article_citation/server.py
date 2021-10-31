@@ -19,10 +19,11 @@ def network_portrayal(G):
 
         refs_this_art = agent.model.G.in_degree(agent.unique_id)
 
-        # total_refs = agent.model.G.in_degree(agent.model.G.nodes())
-        # total_refs = sum([val for key, val in total_refs])
-
         refs_this_art = int(math.log(refs_this_art + 1, 1000) * 5)
+
+        # divisao = 30
+
+        # refs_this_art = 2 * refs_this_art // divisao
 
         return refs_this_art + 3
 
