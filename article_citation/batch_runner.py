@@ -48,10 +48,10 @@ def collect_data_simulations():
     # Model results
     model_data = batch_runner.get_model_vars_dataframe()
 
-    agents_data.to_csv(path_or_buf = "Simulations/ArticleProduction_Agents_" + 
+    agents_data.to_csv(path_or_buf = "ArticleProduction_Agents_" + 
     "_experiments_" + str(experiments) + 
     "_max_steps_" + str(maximum_steps) + "_.csv")
 
-    model_data.to_csv(path_or_buf = "Simulations/ArticleProduction_Model_" + 
+    model_data.to_csv(path_or_buf = "ArticleProduction_Model_" + 
     "_experiments_" + str(experiments) +
     "_max_steps_" + str(maximum_steps) + "_.csv")
