@@ -8,33 +8,10 @@ from mesa.time import RandomActivation
 from mesa.datacollection import DataCollector
 from mesa.space import NetworkGrid
 
-
-class State(Enum):
-    SUSCEPTIBLE = 0
-    INFECTED = 1
-    RESISTANT = 2
-
 class Art_State(Enum):
     ESCRITO = 0
     PUBLICADO = 1
     NAO_PUBLICADO = 2
-
-
-def number_state(model, state):
-    return sum([1 for a in model.grid.get_all_cell_contents() if a.state is state])
-
-
-def number_infected(model):
-    return number_state(model, State.INFECTED)
-
-
-def number_susceptible(model):
-    return number_state(model, State.SUSCEPTIBLE)
-
-
-def number_resistant(model):
-    return number_state(model, State.RESISTANT)
-
 
 def get_mean_citation(model: Model):
 
@@ -184,6 +161,9 @@ class Article(Agent):
         self.num_citations = 0
         self.num_references = 0
 
+        self.aux_reference_articles = []
+        self.aux_citations = []
+
         if(len(self.model.schedule.agents) < self.model.num_acceptable_articles):
             mu = len(self.model.schedule.agents) // 2
             sigma = 5
@@ -195,6 +175,7 @@ class Article(Agent):
         self.max_cite_art = int(self.random.normalvariate(mu, sigma))
         
         # self.max_cite_art = self.random.randint(0, len(self.model.schedule.agents))
+
 
     def step(self):
         pass
@@ -229,14 +210,18 @@ class Article(Agent):
                 cited_art = self.random.choices(self.model.schedule.agents, weights = dg_list, k = 1, cum_weights = None)[0]
                 # cited_art = self.random.choice(self.model.schedule.agents)
                 self.citations.append(cited_art)
+                self.aux_citations.append(str(cited_art.unique_id))
 
         self.reference_articles = list(set(self.citations))
 
         self.num_citations = len(self.citations)
         self.num_references = len(self.reference_articles)
         
+        
         for art in self.reference_articles:
             self.model.G.add_edge(self.unique_id, art.unique_id)
+
+            self.aux_reference_articles.append(str(art.unique_id))
 
 # class VirusAgent(Agent):
 #     def __init__(

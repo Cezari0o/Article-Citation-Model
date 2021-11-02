@@ -7,7 +7,7 @@ def collect_data_simulations():
 
     # The parameters here still do not influence the execution of the simulations
     fixed_params = {
-        # "num_max_authors": 10 
+        "num_max_authors": 10 
         # "num_acceptable_articles": 20
     }
 
@@ -16,6 +16,10 @@ def collect_data_simulations():
         # "num_acceptable_articles": range(10, 20, 5),
     }
 
+    # alo = []
+    # for i in range(100, 451, 50):
+    #     alo.append(i)
+    # print(alo)
     experiments = 10
     maximum_steps = max(variable_params["num_max_articles"])
 
@@ -28,6 +32,8 @@ def collect_data_simulations():
     agent_reporters = {
         "numero_citacoes" : "num_citations",
         "numero_referencias" : "num_references",
+        "artigos_referenciados" : "aux_reference_articles",
+        "Citacoes": "aux_citations",
     }
 
     batch_runner = BatchRunner(

@@ -145,87 +145,25 @@ model_params = {
         description="Escolha o número de artigos máximos a serem produzidos"
     ),
 
-    "num_acceptable_articles" :  UserSettableParameter(
-        param_type="slider",
-        name="Número de citações médias iniciais",
-        value=50,
-        min_value=10,
-        max_value=80,
-        step=1,
-        description="Escolha a quantidade de artigos que terão uma citação média inicial um pouco mais baixa"
-    ),
- 
-    # "avg_node_degree": UserSettableParameter(
-    #     "slider", "Avg Node Degree", 3, 3, 8, 1, description="Avg Node Degree"
+    # "num_acceptable_articles" :  UserSettableParameter(
+    #     param_type="slider",
+    #     name="Número de citações médias iniciais",
+    #     value=50,
+    #     min_value=10,
+    #     max_value=80,
+    #     step=1,
+    #     description="Escolha a quantidade de artigos que terão uma citação média inicial um pouco mais baixa"
     # ),
 
-    # "num_max_authors" : UserSettableParameter(
-    #     param_type="slider",
-    #     name="Número máximo de autores",
-    #     value=100,
-    #     min_value=10,
-    #     max_value=400,
-    #     step=1,
-    #     description="Escolha o número de autores que podem produzir artigos"
-    # ),
-    # "num_nodes": UserSettableParameter(
-    #     "slider",
-    #     "Number of agents",
-    #     10,
-    #     10,
-    #     100,
-    #     1,
-    #     description="Choose how many agents to include in the model",
-    # ),
-    # "avg_node_degree": UserSettableParameter(
-    #     "slider", "Avg Node Degree", 3, 3, 8, 1, description="Avg Node Degree"
-    # ),
-    # "initial_outbreak_size": UserSettableParameter(
-    #     "slider",
-    #     "Initial Outbreak Size",
-    #     1,
-    #     1,
-    #     10,
-    #     1,
-    #     description="Initial Outbreak Size",
-    # ),
-    # "virus_spread_chance": UserSettableParameter(
-    #     "slider",
-    #     "Virus Spread Chance",
-    #     0.4,
-    #     0.0,
-    #     1.0,
-    #     0.1,
-    #     description="Probability that susceptible neighbor will be infected",
-    # ),
-    # "virus_check_frequency": UserSettableParameter(
-    #     "slider",
-    #     "Virus Check Frequency",
-    #     0.4,
-    #     0.0,
-    #     1.0,
-    #     0.1,
-    #     description="Frequency the nodes check whether they are infected by " "a virus",
-    # ),
-    # "recovery_chance": UserSettableParameter(
-    #     "slider",
-    #     "Recovery Chance",
-    #     0.3,
-    #     0.0,
-    #     1.0,
-    #     0.1,
-    #     description="Probability that the virus will be removed",
-    # ),
-    # "gain_resistance_chance": UserSettableParameter(
-    #     "slider",
-    #     "Gain Resistance Chance",
-    #     0.5,
-    #     0.0,
-    #     1.0,
-    #     0.1,
-    #     description="Probability that a recovered agent will become "
-    #     "resistant to this virus in the future",
-    # ),
+    "num_max_authors" : UserSettableParameter(
+        param_type="slider",
+        name="Número máximo de autores",
+        value=100,
+        min_value=10,
+        max_value=400,
+        step=1,
+        description="Escolha o número de autores que podem produzir artigos"
+    ),
 }
 
 server = ModularServer(
