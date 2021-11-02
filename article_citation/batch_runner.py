@@ -2,8 +2,9 @@ from mesa.batchrunner import BatchRunner
 from .model import *
 
 def collect_data_simulations():
-
-    # The parameters here still do not influence the execution of the simulations
+    """Coleta os dados gerados em varias simulacoes. Armazena os dados gerados em arquivos no 
+    formato csv"""
+    # The parameters here do not influence the execution of the simulations
     fixed_params = {
         "num_max_authors": 10 
         # "num_acceptable_articles": 20
@@ -18,6 +19,8 @@ def collect_data_simulations():
     # for i in range(100, 451, 50):
     #     alo.append(i)
     # print(alo)
+
+    # Numero de experimentos para executar com cada combinacao de parametros
     experiments = 10
     maximum_steps = max(variable_params["num_max_articles"])
 
@@ -31,9 +34,10 @@ def collect_data_simulations():
         "numero_citacoes" : "num_citations",
         "numero_referencias" : "num_references",
         "artigos_referenciados" : "aux_reference_articles",
-        "Citacoes": "aux_citations",
+        "citacoes": "aux_citations",
     }
 
+    # Batch runner do mesa, que vai rodar as simulacoes
     batch_runner = BatchRunner(
         ArticlesProductModel,
         variable_parameters = variable_params,
@@ -46,10 +50,10 @@ def collect_data_simulations():
 
     batch_runner.run_all()
 
-    # Agents results
+    # Resultados dos dados dos agentes
     agents_data = batch_runner.get_agent_vars_dataframe()
 
-    # Model results
+    # Resultados dos dados dos agentes
     model_data = batch_runner.get_model_vars_dataframe()
 
     agents_data.to_csv(path_or_buf = "ArticleProduction_Agents_" + 

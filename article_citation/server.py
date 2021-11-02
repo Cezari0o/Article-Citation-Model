@@ -12,13 +12,11 @@ from .model import ArticlesProductModel
 
 
 def network_portrayal(G):
-    # The model ensures there is always 1 agent per node
 
     def node_size(agent):
-        # total_refs = len(agent.reference_articles)
-
+        """Da o tamanho de um nó no gráfico gerado, baseado na quantidade de citacoes que sao feitas a ele."""
+        
         refs_this_art = agent.model.G.in_degree(agent.unique_id)
-
         refs_this_art = int(math.log(refs_this_art + 1, 1000) * 5)
 
         # divisao = 30
@@ -28,9 +26,9 @@ def network_portrayal(G):
         return refs_this_art + 3
 
     def node_color(agent):
-        # return {State.INFECTED: "#FF0000", State.SUSCEPTIBLE: "#008000"}.get(
-        #     agent.state, "#808080"
-        # )
+        """ Retorna a cor de um nó do gráfico. Se o artigo (nó) tiver alguma citação, sua cor ficara azul, caso contrário, ele será 
+        laranja. """
+
         total_refs = len(agent.reference_articles)
 
         if(total_refs > 0):
@@ -39,22 +37,20 @@ def network_portrayal(G):
         return "#ff6600"
 
     def edge_color(agent1, agent2):
-        # if State.RESISTANT in (agent1.state, agent2.state):
-        #     return "#000000"
+        
         return "#e8e8e8"
 
     def edge_width(agent1, agent2):
-        # if State.RESISTANT in (agent1.state, agent2.state):
-        #     return 3
         return 2
 
     def get_agents(source, target):
+        """ Retorna os agentes que compõem a rede, assim como a forma que eles serão exibidos."""
         src = []
         tgt = []
+
         if(len(G.nodes[source]["agent"]) > 0):
             src = G.nodes[source]["agent"][0]
 
-        
         if(len(G.nodes[target]["agent"]) > 0):
             tgt = G.nodes[target]["agent"][0]
 
@@ -97,10 +93,6 @@ chart = ChartModule(
         {"Label": "Media", "Color": "#000000"},
         {"Label": "Mediana", "Color": "#008000"},
         {"Label": "Moda", "Color": "#808080"},
-    
-        # {"Label": "Infected", "Color": "#FF0000"},
-        # {"Label": "Susceptible", "Color": "#008000"},
-        # {"Label": "Resistant", "Color": "#808080"},
     ]
 )
 
@@ -116,24 +108,18 @@ chart2 = BarChartModule( canvas_height=400, canvas_width=800,
     # sorting='ascending',
 )
 
+# Secoes de texto a serem exibidas na página interativa
 class ChartTitle(TextElement):
     def render(self, model):
-        # ratio = model.resistant_susceptible_ratio()
-        # ratio_text = "&infin;" if ratio is math.inf else "{0:.2f}".format(ratio)
-        # infected_text = str(number_infected(model))
-
-        # return "Resistant/Susceptible Ratio: {}<br>Infected Remaining: {}".format(
-        #     ratio_text, infected_text
-        # )
 
         return "Medidas de tendência sobre a quantidade de referências dos artigos:"
 
-
 class ChartTitle2(TextElement):
     def render(self, model):
-
         return "Quantidade de citações que cada artigo faz:"
 
+
+# Os parametros utilizados na pagina interativa
 model_params = {
     "num_max_articles" : UserSettableParameter(
         param_type="slider",
