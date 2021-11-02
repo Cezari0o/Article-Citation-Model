@@ -1,7 +1,5 @@
 from mesa.batchrunner import BatchRunner
 from .model import *
-import matplotlib.pyplot as plt
-
 
 def collect_data_simulations():
 
@@ -12,7 +10,7 @@ def collect_data_simulations():
     }
 
     variable_params = {
-        "num_max_articles": range(100, 451, 50),
+        "num_max_articles": range(100, 1000, 50),
         # "num_acceptable_articles": range(10, 20, 5),
     }
 
